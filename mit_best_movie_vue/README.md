@@ -1,5 +1,5 @@
 # mit_best_movie_vue
-
+This is the demo application I made for fun.
 ## Project setup
 ```
 npm install
