@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "less": "^4.2.1",
+    "less-loader": "^12.2.0"
+  },
+  "dependencies": {
+    "bulma-toast": "^2.4.4",
+    "js-cookie": "^3.0.5"
+  }
+}
