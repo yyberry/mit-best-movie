@@ -81,8 +81,9 @@ export default {
             if (cSlug == 'new' || cSlug == 'top-250'){
                 isDynamic.value = true //manually set the value to true for the known cases
             } else {
-                isDynamic.value = false; // 默认值
+                
             }
+            
         }
 
         categorySlug.value = cSlug;

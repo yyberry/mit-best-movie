@@ -45,9 +45,9 @@
               <img :src="getImage(movie.poster)" :alt="movie.title" />
             </router-link>
             
-            <div class="image-info">
-              <p class="title">{{ movie.title }}</p>
-              <p class="rating">rating: {{ movie.rating }}</p>
+            <div class="image-info has-text-white">
+              <h3>{{ movie.title }}</h3>
+              <p>rating: {{ movie.rating }}</p>
             </div>
           </div>
         </div>
@@ -87,6 +87,7 @@ export default {
     };
 
     const getPosterStyle = (index) => {
+      const isHovered = hoveredIndex.value === index;
       const isLeftColumn = index % 2 === 0;
       const offsetX = isLeftColumn ? "10%" : "45%"; 
       const offsetY = Math.floor(index / 2) * 30;
@@ -96,7 +97,9 @@ export default {
         position: "absolute",
         top: `${offsetY}%`,
         left: `${offsetX}`,
-        transform: `rotate(${tiltAngle}deg)`,
+        transform: isHovered ? `scale(1.2) rotate(0deg)` : `rotate(${tiltAngle}deg)`,
+        zIndex: isHovered ? 100 : 1,
+        transition: "transform 0.3s ease, z-index 0.3s ease",
       };
     };
 
@@ -232,7 +235,7 @@ export default {
   position: relative;
   flex: 0.5; /* 减小文字区域 */
   /* padding-left: 5%; */
-  color: #333;
+  color: black;
   font-size: 1vw;
   line-height: 2vw;
   display: flex;
@@ -256,6 +259,10 @@ export default {
   transition: transform 0.3s ease-in-out;
 }
 
+.poster:hover {
+  z-index: 100; /* 让悬停的海报位于最上层 */
+}
+
 .poster img {
   width: 240px; /* 增大海报尺寸 */
   height: auto;
@@ -274,10 +281,14 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%) ; 
   text-align: center;
-  color: #fff;
+  color: white;
   visibility: hidden;
   opacity: 0;
   transition: visibility 0.3s, opacity 0.3s;
+}
+
+.movie-info h3 {
+  color: white !important;
 }
 
 .poster:hover .movie-info {

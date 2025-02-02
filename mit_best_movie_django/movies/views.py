@@ -93,7 +93,11 @@ class WatchedMoviesView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        watched_movies = WatchedMovie.objects.filter(user=request.user)[:5]
+        recent = request.query_params.get("recent", "false").lower() == "true"
+        if recent:
+            watched_movies = WatchedMovie.objects.filter(user=request.user)[:5]
+        else:
+            watched_movies = WatchedMovie.objects.filter(user=request.user)
         serializer = WatchedMovieSerializer(watched_movies, many=True)
         return Response(serializer.data)
 

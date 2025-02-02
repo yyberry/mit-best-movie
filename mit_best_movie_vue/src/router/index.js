@@ -7,6 +7,7 @@ import MovieView from '../views/MovieView.vue'
 import SignUpView from '../views/SignUpView.vue'
 import LogInView from '../views/LogInView.vue'
 import MyAccountView from '../views/MyAccountView.vue'
+import WatchedMoviesView from '../views/WatchedMoviesView.vue'
 
 const routes = [
   {
@@ -59,6 +60,15 @@ const routes = [
       requireLogin: true,
       title: 'My account | Mit Best Movie',
       isMyAccountPage: true,
+  }
+  },
+  {
+    path: '/watched-movies',
+    name: 'WatchedMovies',
+    component: WatchedMoviesView,
+    meta: {
+      requireLogin: true,
+      title: 'My account | Watched Movies',
   }
   },
 ]

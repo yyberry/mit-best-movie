@@ -33,7 +33,7 @@
                     :key="watchedmovie.movie.id" 
                     class="column is-2"
                 >
-                    <div class="card">
+                    <div class="card card-container">
                         <div class="card-image">
                             <figure class="image is-2by3">
                                 <router-link :to="`/movie/${watchedmovie.movie.slug}`">
@@ -76,7 +76,7 @@ export default {
         const fetchWatchedMovies = async () => {
             try {
                 const token = localStorage.getItem("token");
-                const response = await axios.get("/api/v1/watched-movies/");
+                const response = await axios.get("/api/v1/watched-movies/?recent=true");
                 watchedMovies.value = response.data;
                 console.log("watched movies: ",watchedMovies.value)
             } catch (err) {
@@ -142,6 +142,12 @@ export default {
 .page-my-account {
     margin-top: 50px;
     height: 100vh; /* 让页面高度为视口高度 */
+}
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 </style>
