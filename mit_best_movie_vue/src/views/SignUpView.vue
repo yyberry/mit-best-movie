@@ -83,18 +83,17 @@ export default {
     const username = ref('');
     const password = ref('');
     const password2 = ref('');
-    const showPassword = ref(false); // 控制密码显示
+    const showPassword = ref(false); // control password visibility
     const errors = ref([]);
     const router = useRouter();
 
-    // 切换密码显示状态
+    // toggle password visibility
     const togglePasswordVisibility = () => {
       showPassword.value = !showPassword.value;
     };
 
-    // 提交表单逻辑
     const submitForm = () => {
-      errors.value = []; // 重置错误信息
+      errors.value = []; 
 
       if (username.value === '') {
         errors.value.push('The username is missing');
@@ -125,7 +124,7 @@ export default {
               duration: 2000,
               position: 'bottom-right',
             });
-            router.push('/log-in'); // 跳转到登录页面
+            router.push('/log-in'); 
           })
           .catch((error) => {
             if (error.response) {

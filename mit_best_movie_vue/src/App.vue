@@ -67,32 +67,29 @@ import { useStore } from 'vuex';
 
 export default {
   setup() {
-    // 响应式数据
     const showMobileMenu = ref(false);
     const showMovieCategories = ref(false);
     const showOtherCategories = ref(false);
     const categories = ref([])
     const state = reactive({
-      lastScrollTop: 0, // 上次滚动位置
-      showNavbar: false, // 控制 navbar 显示与隐藏
+      lastScrollTop: 0, // last scroll position
+      showNavbar: false, // control the display and hiding of the navbar
     });
     const store = useStore();
 
-
-    // 处理滚动事件
     const handleScroll = () => {
       const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
       if (currentScrollTop > state.lastScrollTop) {
-        state.showNavbar = true; // 向下滚动并且距离大于 50 时，显示 navbar
+        state.showNavbar = true; // display the navbar when the user scrolls down and the scroll distance is greater than 50 pixels
       } else if (currentScrollTop < state.lastScrollTop) {
-        state.showNavbar = false; // 向上滚动或滚动距离小于等于 50，隐藏 navbar
+        state.showNavbar = false; // display the navbar when the user scrolls up and the scroll distance is greater than 50 pixels
       }
 
-      state.lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop; // 防止负值
+      state.lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop; // prevent negative scroll values
     };
 
-    // 切换菜单显示状态
+    // toggle the menu display state
     const toggleDropdown = (menu) => {
       if (menu === "showMovieCategories") {
         showMovieCategories.value = !showMovieCategories.value;
@@ -110,10 +107,8 @@ export default {
       }
     }
 
-    // 生命周期钩子
-    // 在组件挂载之前执行
     onBeforeMount(() => {
-      store.commit('initializeStore');  // 初始化 store
+      store.commit('initializeStore');  
 
       const token = store.state.token;
 
@@ -147,38 +142,37 @@ export default {
 
 <style scoped>
 .section {
-  padding: 1px; /* 或者设置为你需要的内边距 */
+  padding: 1px; 
 }
 
 .navbar {
   position: fixed;
   top: 0;
   width: 100%;
-  opacity: 0; /* 默认隐藏 navbar */
-  visibility: hidden; /* 隐藏 navbar */
-  transition: opacity 0.5s ease, visibility 0.5s ease; /* 设置透明度和可见性的渐变效果 */
-  z-index: 1000; /* 保证 navbar 显示在其他内容上面 */
+  opacity: 0; 
+  visibility: hidden; 
+  transition: opacity 0.5s ease, visibility 0.5s ease; 
+  z-index: 1000; 
 }
 
 .navbar.show {
-  opacity: 1; /* 显示 navbar */
-  visibility: visible; /* 设置 navbar 为可见 */
+  opacity: 1; 
+  visibility: visible; 
 }
 
-/* 设置 Movie 下拉框的样式 */
 .navbar-dropdown {
-  overflow-y: auto;  /* 启用垂直滚动条 */
-  position: absolute;  /* 改为绝对定位 */
-  top: 100%; /* 让下拉框显示在父元素下方 */
-  left: 0;  /* 对齐父元素的左边 */
-  z-index: 1000;  /* 确保下拉框显示在其他元素之上 */
-  width: auto;  /* 自动宽度，根据内容调整 */
+  overflow-y: auto;  
+  position: absolute;  
+  top: 100%; 
+  left: 0; 
+  z-index: 1000;  
+  width: auto;  
   height: auto;
-  max-height: 300px; /* 设置最大高度，避免过长 */
+  max-height: 300px; 
 }
 
 .navbar-item.has-dropdown {
-  position: relative; /* 使下拉菜单相对于此元素定位 */
+  position: relative; 
 }
 
 </style>

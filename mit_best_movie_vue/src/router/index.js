@@ -79,7 +79,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title || 'Mit Best Movie'; // 默认标题
+  document.title = to.meta.title || 'Mit Best Movie'; // default title
   if (to.matched.some(record => record.meta.requireLogin) && !store.state.isAuthenticated) {
     next({ name: 'LogIn', query: { to: to.path } });
   } else {

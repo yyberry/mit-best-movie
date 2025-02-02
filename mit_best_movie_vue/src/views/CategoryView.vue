@@ -4,7 +4,7 @@
       <div class="loading-message">Loading...</div>
     </div>
 
-    <!-- 标题 -->
+    <!-- title -->
     <div class="category-title">
         <h1 class="title is-1">{{ categorySlug.toUpperCase() }} Movies</h1>
         <button 
@@ -17,7 +17,7 @@
         </button>
     </div>
 
-    <!-- 电影列表 -->
+    <!-- movies list -->
     <div class="movies-list">
       <div v-for="(movie, movieIndex) in movies" :key="movieIndex" class="card">
         <div class="card-image">
@@ -60,20 +60,20 @@ export default {
     const isDynamic = ref(false);
     const isLoading = ref(false);
 
-    const route = useRoute(); // 获取当前路由对象
+    const route = useRoute(); // get the current route object
 
-    // 获取电影数据
+    // get movie data
     const fetchMoviesByCategory = async (cSlug) => {
       try {
 
         const response = await axios.get(`/api/v1/category/${cSlug}/`);
         movies.value = response.data;
 
-        // 获取所有类别数据并找到对应的类别
+        // get all tags and find the corresponding category
         const categoryResponse = await axios.get(`/api/v1/categories/`);
         const category = categoryResponse.data.find((c) => c.slug === cSlug);
 
-        // 如果找到对应的类别，设置 isDynamic
+        // f the corresponding category is found, set the value of isDynamic
         if (category) {
             isDynamic.value = category.is_dynamic;
         } else {
@@ -92,20 +92,20 @@ export default {
       }
     };
 
-    // 刷新类别电影
+    // refresh movies
     const refreshCategory = async () => {
       isLoading.value = true; 
       try {
         await axios.post(`/api/v1/category/${categorySlug.value}/refresh/`);
-        await fetchMoviesByCategory(categorySlug.value); // 刷新后重新获取数据
+        await fetchMoviesByCategory(categorySlug.value); // re-fetch the data after the page refresh
       } catch (error) {
         console.error('Error refreshing category:', error);
       } finally {
-        isLoading.value = false; // 关闭等待提示
+        isLoading.value = false; // close the loading indicator
       }
     };
 
-    // 获取海报图片 URL
+    // get the poster image URL
     const getImage = (_url) => {
       if (_url) {
         const _u = _url.replace(/^https?:\/\//, "");
@@ -113,17 +113,16 @@ export default {
       }
     };
 
-    // 获取类别 slug 并请求数据
+    // get the category slug and request the data
     onMounted(() => {
-      const cSlug = route.params.category_slug; // 从 URL 获取类别 slug
+      const cSlug = route.params.category_slug; // get the category slug from the URL
       fetchMoviesByCategory(cSlug);
     });
 
-    // 使用 watch 来监听路由参数变化
     watch(
-      () => route.params.category_slug, // 监听路由参数的变化
+      () => route.params.category_slug, 
       (newSlug, oldSlug) => {
-        // 当 category_slug 变化时重新加载数据
+        // reload the data when the category_slug changes
         if (newSlug !== oldSlug) {
           fetchMoviesByCategory(newSlug);
         }
@@ -158,21 +157,21 @@ export default {
   transform: translateY(-5px);
 }
 
-/* 遮罩层样式 */
+/* mask (overlay) */
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* 确保遮罩层在最上层 */
+  z-index: 1000; /* ensure the mask (overlay) appears on the topmost layer */
 }
 
-/* 等待提示文字样式 */
+/* loading message */
 .loading-message {
   color: white;
   font-size: 2rem;

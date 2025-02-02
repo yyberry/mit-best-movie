@@ -44,7 +44,7 @@ def scrap_movie_information(url):
     rating = fetch_element_text(soup, 'strong', 'v:average')
     if rating == '':
         rating = 0
-    tags = fetch_multiple_elements_text(soup, 'span', 'v:genre')  # 根据豆瓣网页结构修改
+    tags = fetch_multiple_elements_text(soup, 'span', 'v:genre') 
 
     # print(fetch_element_text(soup, 'strong', 'v:average'))
     # Collect movie information

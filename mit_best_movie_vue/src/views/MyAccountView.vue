@@ -67,7 +67,6 @@ export default {
         const store = useStore();
         const router = useRouter();
 
-        // 获取用户名
         const username = ref('');
         const watchedMovies = ref([]);
         const loading = ref(true);
@@ -86,7 +85,7 @@ export default {
             }
         };
 
-        // 登出功能
+        // log out function
         const logout = () => {
             axios.defaults.headers.common['Authorization'] = '';
 
@@ -98,7 +97,7 @@ export default {
             router.push('/');
         };
 
-        // 跳转到 Watched Movies 页面
+        // redirect to Watched Movies page
         const goToWatchedMovies = () => {
             router.push('/watched-movies');
         };
@@ -113,12 +112,11 @@ export default {
 
         const formatDate = (datetime) => {
             const date = new Date(datetime);
-            return date.toISOString().split('T')[0]; // 返回 'YYYY-MM-DD' 格式
+            return date.toISOString().split('T')[0]; // return 'YYYY-MM-DD' 
         };
 
 
         onMounted(() => {
-            // 从 localStorage 或 Vuex 获取用户名
             username.value =  localStorage.getItem('username') || 'Guest';
             fetchWatchedMovies();
         });
@@ -141,7 +139,7 @@ export default {
 <style scoped>
 .page-my-account {
     margin-top: 50px;
-    height: 100vh; /* 让页面高度为视口高度 */
+    height: 100vh; 
 }
 
 .card-container {

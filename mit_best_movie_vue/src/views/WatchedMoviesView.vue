@@ -4,12 +4,12 @@
       <div class="loading-message">Loading...</div>
     </div>
 
-    <!-- 标题 -->
+    <!-- title -->
     <div class="page-title">
       <h1 class="title is-1">Watched Movies</h1>
     </div>
 
-    <!-- 电影列表 -->
+    <!-- movie list -->
     <div class="movies-list">
       <div v-for="(watchedMovie, index) in watchedMovies" :key="index" class="card">
         <div class="card-image">
@@ -38,7 +38,6 @@ export default {
     const watchedMovies = ref([]);
     const isLoading = ref(false);
 
-    // 获取 watched movies 数据
     const fetchWatchedMovies = async () => {
       isLoading.value = true;
       try {
@@ -51,7 +50,7 @@ export default {
       }
     };
 
-    // 获取海报图片 URL
+    // get the poster image URL
     const getImage = (url) => {
       if (url) {
         const _url = url.replace(/^https?:\/\//, "");
@@ -59,13 +58,11 @@ export default {
       }
     };
 
-    // 格式化日期
     const formatDate = (datetime) => {
       const date = new Date(datetime);
-      return date.toISOString().split('T')[0]; // 返回 'YYYY-MM-DD' 格式
+      return date.toISOString().split('T')[0]; // return 'YYYY-MM-DD' 
     };
 
-    // 页面加载时请求数据
     onMounted(() => {
       fetchWatchedMovies();
     });
@@ -97,21 +94,21 @@ export default {
   transform: translateY(-5px);
 }
 
-/* 遮罩层样式 */
+/* mask (overlay) */
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* 确保遮罩层在最上层 */
+  z-index: 1000; /* ensure the mask (overlay) appears on the topmost layer */
 }
 
-/* 等待提示文字样式 */
+/* loading message */
 .loading-message {
   color: white;
   font-size: 2rem;

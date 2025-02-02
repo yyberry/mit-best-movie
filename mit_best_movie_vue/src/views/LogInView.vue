@@ -47,7 +47,6 @@ import { useStore } from 'vuex';
 export default {
   name: 'LogIn',
   setup() {
-    // 定义响应式变量
     const username = ref('');
     const password = ref('');
     const errors = ref([]);
@@ -55,9 +54,8 @@ export default {
     const route = useRoute();
     const store = useStore();
 
-    // 表单提交逻辑
     const submitForm = async () => {
-        // 清除错误信息
+        // clear the error messages
         errors.value = [];
         axios.defaults.headers.common['Authorization'] = '';
         localStorage.removeItem('token');
@@ -74,29 +72,28 @@ export default {
             }
             });
 
-            console.log(response.data);  // 输出响应数据
+            console.log(response.data);  
             const token = response.data.auth_token;
 
-            // 存储用户名
-            localStorage.setItem('username', username.value);  // 或者 Cookies.set('username', username.value)
+            // store user name
+            localStorage.setItem('username', username.value);  
 
-            // 更新 Vuex Store
+            // update Vuex Store
             store.commit('setToken', token);
 
-            // 设置 Axios 请求头
+            // set Axios headers
             axios.defaults.headers.common['Authorization'] = 'Token ' + token;
 
-            // 保存 Token 到本地存储
+            // store Token 
             localStorage.setItem('token', token);
 
-            // 跳转到指定页面
+            // navigate to the specified page
             const toPath = route.query.to || '/my-account';
             router.push(toPath);
 
             } catch (error) {
-                console.log(error);  // 输出完整的错误信息
+                console.log(error);  
                 if (error.response) {
-                    // 输出来自后端的错误信息
                     for (const property in error.response.data) {
                         errors.value.push(`${property}: ${error.response.data[property]}`);
                     }
@@ -106,8 +103,6 @@ export default {
             }
     };
 
-
-    // 返回响应式数据和方法
     return {
       username,
       password,

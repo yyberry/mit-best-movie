@@ -43,34 +43,34 @@ import { useRoute, useRouter } from "vue-router";
 
 export default {
   setup() {
-    const route = useRoute(); // 获取路由参数
-    const router = useRouter(); // 路由实例
-    const movie = ref(null); // 电影详情数据
-    const loading = ref(true); // 加载状态
-    const error = ref(null); // 错误消息
+    const route = useRoute(); 
+    const router = useRouter(); 
+    const movie = ref(null); 
+    const loading = ref(true); 
+    const error = ref(null); 
 
     const fetchMovieDetails = async (movieSlug) => {
       try {
         const response = await axios.get(`/api/v1/movie/${movieSlug}/`);
-        movie.value = response.data; // 保存返回的数据
+        movie.value = response.data; 
         console.log('Fetched movie:', movie.value); 
       } catch (err) {
         error.value = "Failed to fetch movie details. Please try again.";
       } finally {
-        loading.value = false; // 停止加载
+        loading.value = false; // stop loading
       }
     };
 
     const markAsWatched = async () => {
       const token = localStorage.getItem("token");
       if (!token) {
-        // 用户未登录，跳转到登录页面
+        // if the user is not logged in, redirect to the login page
         router.push("/log-in");
         return;
       }
       try {
         const data = { movie: movie.value.id };
-        console.log('Sending data:', data);  // 打印请求数据
+        console.log('Sending data:', data);  
         const response = await axios.post(
             "/api/v1/watched-movies/",
             data
@@ -90,9 +90,9 @@ export default {
     };
 
     onMounted(() => {
-      const movieSlug = route.params.movie_slug; // 从路由中获取 movie_slug
+      const movieSlug = route.params.movie_slug; // get the movie_slug from the route
       if (movieSlug) {
-        fetchMovieDetails(movieSlug); // 获取电影详情
+        fetchMovieDetails(movieSlug); 
       } else {
         error.value = "Movie slug is missing in the URL.";
         loading.value = false;
@@ -112,10 +112,9 @@ export default {
 <style scoped>
 .page-movie-detail {
     margin-top: 50px;
-    height: 100vh; /* 让页面高度为视口高度 */
+    height: 100vh; 
 }
 
-/* 加载和错误提示样式 */
 .loading,
 .error {
   text-align: center;
@@ -123,13 +122,11 @@ export default {
   color: #333;
 }
 
-
-/* 左边海报样式 */
 .movie-poster {
-  flex: 0.5; /* 固定宽度 */
-  display: flex; /* 设置为 Flexbox 容器 */
-  justify-content: center; /* 水平居中 */
-  align-items: center; /* 垂直居中 */
+  flex: 0.5; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
 }
 
 .movie-poster img {
@@ -140,12 +137,11 @@ export default {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* 右边信息样式 */
 .movie-info {
   flex: 0.5;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* 垂直居中 */
+  justify-content: center; 
   align-items: center;
   padding-left: 20px;
 }

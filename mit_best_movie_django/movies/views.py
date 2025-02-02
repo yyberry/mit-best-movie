@@ -17,7 +17,6 @@ class NewMovies(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request, *args, **kwargs):
-        # 获取 New 类别的最新电影
         new_category = Category.objects.filter(name='New').first()
         if not new_category:
             return Response([])
@@ -111,26 +110,24 @@ class WatchedMoviesView(APIView):
     
 class RefreshDynamicCategoryView(APIView):
     def post(self, request, *args, **kwargs):
-        # 获取对应类别
         category = get_object_or_404(Category, slug=kwargs.get('category_slug'), is_dynamic=True)
         print(f"updating category: {category}")
         
-        # 获取该类别下的所有电影
         movies = category.movies.all()
 
         for movie in movies:
-            # 检查该电影是否仅有当前类别的标签
+            # check if the movie only has tags for the current category
             if movie.categories.count() == 1:
                 # raise ValidationError(
                 #     {"error": f"The movie '{movie.title}' only belongs to this category and cannot be untagged."}
                 # )
                 movie.delete()
             
-            # 移除该电影的当前类别标签
+            # remove the current category tag from the movie
             else:
                 movie.categories.remove(category)
 
-        # 爬取新数据并存储到数据库中
+        # scrape new data and store it in the database.
         initialize_movie([category]) 
         
         return Response({"message": "Category refreshed successfully"}, status=status.HTTP_200_OK)

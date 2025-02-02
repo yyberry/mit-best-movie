@@ -2,12 +2,12 @@ import pandas as pd
 
 
 '''
-crawl_movie_types: 爬取类别信息(return name(类别名), link, is_dynamic, slug)
-crawl_new_movies: 爬取新电影信息(return name(电影名), link(电影详细信息页link))
-crawl_top_movies: 爬取新电影信息(return name(电影名), link(电影详细信息页link))
-crawl_top250_movies: 爬取top250电影信息(return name(电影名), link(电影详细信息页link)) 
-crawl_type_movies: 爬取各类别电影信息(return name(电影名), link(电影详细信息页link)) 
-scrap_movie_information: 爬取电影的详细信息(return name(电影名), rate_score, img)
+crawl_movie_types: crawl category info(return name(category name), link, is_dynamic, slug)
+crawl_new_movies: crawl new movies info(return name(movie name), link(movie details page link))
+crawl_top_movies: crawl new movies info(return name(movie name), link(movie details page link))
+crawl_top250_movies: crawl top250 movies info(return name(movie name), link(movie details page link)) 
+crawl_type_movies: crawl movie information for each category(return name(movie name), link(movie details page link)) 
+scrap_movie_information: scrap movie details(return name(movie name), rate_score, img)
 '''
 from web_crawler import crawl_movie_types
 from web_crawler import crawl_new_movies, crawl_top_movies, crawl_top250_movies, crawl_type_movies
@@ -64,13 +64,13 @@ def initialize_movie(category_objs):
                     url=row['link'],
                     defaults={
                         'title': movie_details_df.iloc[0]['name'],
-                        'slug': f"{category.slug.lower().replace(' ', '-')}-{idx + 1}",  # 使用类别名和递增数字生成slug
+                        'slug': f"{category.slug.lower().replace(' ', '-')}-{idx + 1}",  # generate a slug using the category name and an incremental number
                         'rating': movie_details_df.iloc[0]['rate_score'],
                         'poster': movie_details_df.iloc[0]['img'],
                     }
                 )
 
-                tags = movie_details_df.iloc[0]['tag'].split()  # 按空格拆分成标签列表
+                tags = movie_details_df.iloc[0]['tag'].split() 
 
                 for c_name in tags:
                     print(f'c_name: {c_name}')
@@ -104,7 +104,7 @@ def initialize_movie(category_objs):
                     url=row['link'],
                     defaults={
                         'title': row['name'],
-                        'slug': f"{category.slug.lower().replace(' ', '-')}-{idx + 1}",  # 使用类别名和递增数字生成slug
+                        'slug': f"{category.slug.lower().replace(' ', '-')}-{idx + 1}",  # generate a slug using the category name and an incremental number
                         'rating': row['rate_score'],
                         'poster': row['img'],
                     }
@@ -133,7 +133,7 @@ def initialize_movie(category_objs):
                     url=row['link'],
                     defaults={
                         'title': row['name'],
-                        'slug': f"{category.slug.lower().replace(' ', '-')}-{idx + 1}",  # 使用类别名和递增数字生成slug
+                        'slug': f"{category.slug.lower().replace(' ', '-')}-{idx + 1}",  # generate a slug using the category name and an incremental number
                         'rating': row['rate_score'],
                         'poster': row['img'],
                     }

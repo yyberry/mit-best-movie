@@ -71,12 +71,12 @@ import axios from "axios";
 
 export default {
   setup() {
-    const newMovies = ref([]); // new电影数据
+    const newMovies = ref([]); // new movies data
     const categories = ref([]);
-    const currentIndexMap = reactive({}); // 每个类别当前显示的电影索引
-    const hoveredIndex = ref(null); // 当前悬停的海报索引
-    const currentIndex = ref(0); // 当前居中的索引
-    const lastScrollTop = ref(0); // 上次滚动的位置
+    const currentIndexMap = reactive({}); // the current movie index for each category
+    const hoveredIndex = ref(null); // the index of the poster currently being hovered over
+    const currentIndex = ref(0); // the index of the currently centered item
+    const lastScrollTop = ref(0); // the last scroll position
     const showMainContainer = ref(false);
 
     const getImage = (_url) => {
@@ -159,7 +159,6 @@ export default {
       lastScrollTop.value = currentScrollTop <= 0 ? 0 : currentScrollTop;
     };
 
-    // 获取数据
     const fetchData = () => {
       axios.get("/api/v1/new-movies/").then((response) => {
         newMovies.value = response.data;
@@ -172,7 +171,6 @@ export default {
       });
     };
 
-    // 生命周期钩子
     onMounted(() => {
       window.addEventListener("scroll", handleScroll);
       fetchData();
@@ -206,11 +204,11 @@ export default {
 .main-container {
   position: relative;
   width: 100%;
-  height: 100vh; /* 全屏高度 */
+  height: 100vh; 
   margin: 0;
   background-size: cover;
   background-position: top center;
-  background-attachment: fixed; /* 背景图固定不随滚动 */
+  background-attachment: fixed; 
   overflow: hidden;
 
   opacity: 1;
@@ -226,20 +224,19 @@ export default {
 
 .content {
   display: flex;
-  justify-content: flex-start; /* 内容靠左排列 */
+  justify-content: flex-start; 
   align-items: flex-start;
   height: 100%;
 }
 
 .text-section {
   position: relative;
-  flex: 0.5; /* 减小文字区域 */
-  /* padding-left: 5%; */
+  flex: 0.5; 
   color: black;
   font-size: 1vw;
   line-height: 2vw;
   display: flex;
-  justify-content: center; /* 文字居中 */
+  justify-content: center; 
   align-items: center;
   height: 100vh;
   flex-direction: column;
@@ -247,10 +244,10 @@ export default {
 
 .poster-section {
   position: relative;
-  flex: 0.5; /* 增大海报区域 */
-  height: 100%; /* 保证海报占满区域 */
+  flex: 0.5; 
+  height: 100%; 
   width: 100%;
-  overflow: hidden; /* 限制超出区域的海报不可见 */
+  overflow: hidden; 
   padding: 0%;
 }
 
@@ -260,19 +257,19 @@ export default {
 }
 
 .poster:hover {
-  z-index: 100; /* 让悬停的海报位于最上层 */
+  z-index: 100; 
 }
 
 .poster img {
-  width: 240px; /* 增大海报尺寸 */
+  width: 240px; 
   height: auto;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* 阴影效果 */
-  border-radius: 6px; /* 圆角边框 */
-  transition: opacity 0.3s ease-in-out; /* 添加海报透明度过渡效果 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+  border-radius: 6px; 
+  transition: opacity 0.3s ease-in-out; 
 }
 
 .poster:hover img {
-  opacity: 0.8; /* 鼠标悬停时海报变透明 */
+  opacity: 0.8; 
 }
 
 .movie-info {
@@ -301,7 +298,6 @@ export default {
   margin: 0;
 }
 
-/* 类别标题样式 */
 .category-title {
   text-align: center;
   margin: 4rem 0 0.5rem 0;
@@ -309,11 +305,9 @@ export default {
   font-weight: bold;
 }
 
-/* 每个类别的容器样式 */
 .category-section {
   margin-bottom: 2rem;
 }
-
 
 #banner {
   display: flex;
@@ -329,7 +323,7 @@ export default {
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 100%; /* 横向铺满屏幕 */
+  width: 100%; 
   height: 80%;
 }
 
@@ -364,8 +358,8 @@ export default {
   bottom: 5%;
   width: 100%;
   display: flex;
-  justify-content: center; /* 居中对齐 */
-  gap: 1rem; /* 设置按钮之间的间距 */
+  justify-content: center; 
+  gap: 1rem; 
 }
 
 .nav-button {
