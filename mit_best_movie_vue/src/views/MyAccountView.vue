@@ -20,6 +20,7 @@
                     @click="goToWatchedMovies"
                 >
                     Watched Movies
+                    
                 </h2>
             </div>
         </div>
@@ -29,8 +30,8 @@
         <div v-else>
             <div v-if="watchedMovies.length === 0" class="columns is-fullwidth">
                 <div class="column is-6 has-text-centered">
-                    <p><strong class="m-3">You haven't marked any movies as watched yet.</strong></p>
-                    <button @click="goToBrowseMovies" class="button is-light-primary m-3">
+                    <p><strong class="m-3">No watched movies yet.</strong></p>
+                    <button @click="goToBrowseMovies" class="button is-primary is-light m-3">
                         Browse Movies
                     </button>
                 </div>
@@ -56,6 +57,13 @@
                         </div>
                     </div>
                 </div>
+
+                <div v-if="watchedMovies.length === 5" class="column is-1 is-flex is-align-items-stretch">
+                    <button @click="goToWatchedMovies" class="button m-3 is-light is-fullwidth">
+                        > >
+                    </button>
+                </div>
+                
             </div>
         </div>
         <hr>

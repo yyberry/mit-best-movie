@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page-watched-movie">
     <div v-if="isLoading" class="overlay">
       <div class="loading-message">Loading...</div>
     </div>
@@ -23,6 +23,9 @@
         <div class="card-content">
           <h3 class="title is-4">{{ watchedMovie.movie.title }}</h3>
           <p class="content"><strong>Watched on:</strong> {{ formatDate(watchedMovie.watched_at) }}</p>
+          <button @click="removeFromWatched(watchedMovie.movie.id)" class="button is-danger is-small">
+            Remove from Watched
+          </button>
         </div>
       </div>
     </div>
@@ -50,6 +53,19 @@ export default {
       }
     };
 
+    // Remove movie from watched list
+    const removeFromWatched = async (movieId) => {
+      try {
+        await axios.delete(`/api/v1/watched-movies/${movieId}/`);
+        // Remove the movie from the list in the front-end
+        watchedMovies.value = watchedMovies.value.filter(
+          (movie) => movie.movie.id !== movieId
+        );
+      } catch (error) {
+        console.error('Error removing movie:', error);
+      }
+    };
+
     // get the poster image URL
     const getImage = (url) => {
       if (url) {
@@ -71,13 +87,19 @@ export default {
       watchedMovies,
       isLoading,
       getImage,
-      formatDate
+      formatDate,
+      removeFromWatched,
     };
   }
 };
 </script>
 
 <style scoped>
+.page-watched-movie {
+    margin-top: 50px;
+    height: 100vh; 
+}
+
 .page-title {
   text-align: center;
   margin-top: 20px;

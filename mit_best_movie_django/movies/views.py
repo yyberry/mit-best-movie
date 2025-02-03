@@ -132,3 +132,17 @@ class RefreshDynamicCategoryView(APIView):
         
         return Response({"message": "Category refreshed successfully"}, status=status.HTTP_200_OK)
     
+class RemoveWatchedMovie(APIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def delete(self, request, movie_id):
+        # Get the watched movie by user and movie ID
+        watched_movie = get_object_or_404(WatchedMovie, user=request.user, movie_id=movie_id)
+
+        # Delete the watched movie entry
+        watched_movie.delete()
+
+        return Response({"message": "Movie removed from watched list!"}, status=status.HTTP_204_NO_CONTENT)
+
+    

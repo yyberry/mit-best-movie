@@ -8,5 +8,6 @@ urlpatterns = [
     path('categories/', views.AllGenre.as_view()),
     path('movie/<slug:movie_slug>/', views.MovieDetail.as_view()),
     path('watched-movies/', views.WatchedMoviesView.as_view()),
+    path('watched-movies/<int:movie_id>/', views.RemoveWatchedMovie.as_view()),
     path('category/<slug:category_slug>/refresh/', views.RefreshDynamicCategoryView.as_view()),
 ]
