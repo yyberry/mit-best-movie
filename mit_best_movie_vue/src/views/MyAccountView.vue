@@ -27,6 +27,14 @@
         <div v-if="loading" class="loading">Loading...</div>
         <div v-else-if="error" class="error">{{ error }}</div>
         <div v-else>
+            <div v-if="watchedMovies.length === 0" class="columns is-fullwidth">
+                <div class="column is-6 has-text-centered">
+                    <p><strong class="m-3">You haven't marked any movies as watched yet.</strong></p>
+                    <button @click="goToBrowseMovies" class="button is-light-primary m-3">
+                        Browse Movies
+                    </button>
+                </div>
+            </div>
             <div class="columns is-multiline">
                 <div 
                     v-for="watchedmovie in watchedMovies" 
@@ -102,6 +110,11 @@ export default {
             router.push('/watched-movies');
         };
 
+        // redirect to Home page
+        const goToBrowseMovies = () => {
+            router.push('/'); // 
+        };
+
         const getImage = (_url) => {
             console.log("image:", _url)
             if (_url) {
@@ -129,6 +142,7 @@ export default {
             error,
             logout,
             goToWatchedMovies,
+            goToBrowseMovies,
             getImage,
             formatDate
         };
