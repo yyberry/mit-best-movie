@@ -1,38 +1,42 @@
 <template>
-  <div class="columns page-movie-detail">
-    <div v-if="loading" class="loading">Loading...</div>
-    <div v-else-if="error" class="error">{{ error }}</div>
-    <div v-else class="column is-4 is-offset-4">
-      <div class="movie-poster">
-        <img :src="getImage(movie.poster)" :alt="movie.title" />
-      </div>
+    <div class="columns page-movie-detail">
+        <div v-if="loading" class="loading">Loading...</div>
+        <div v-else-if="error" class="notification is-danger">{{ error }}</div>
+        <div v-else class="column is-4 is-offset-4">
+        <div class="movie-poster">
+            <img :src="getImage(movie.poster)" :alt="movie.title" />
+        </div>
 
-      <div class="movie-info">
-        <h1 class="title">{{ movie.title }}</h1>
-        
-        <!-- Watched button -->
-        <button 
-          class="button is-primary" 
-          @click="markAsWatched"
-        >
-          Watched
-        </button>
+        <div class="movie-info">
+            <h1 class="title">{{ movie.title }}</h1>
+            
+            <!-- Watched button -->
+            <button 
+            class="button is-primary" 
+            @click="markAsWatched"
+            >
+            Watched
+            </button>
 
-        <p><strong>Rating:</strong> {{ movie.rating }}</p>
-        <p>
-          <strong>Genre:</strong>
-          <router-link 
-            :to="`/category/${category.slug}`" 
-            v-for="category in movie.categories" 
-            :key="category.slug"
-            class="category-link"
-          >
-            {{ category.slug }}
-          </router-link>
-        </p>
-      </div>
+            <p><strong>Rating:</strong> {{ movie.rating }}</p>
+            <p>
+            <strong>Genre:</strong>
+            <router-link 
+                :to="`/category/${category.slug}`" 
+                v-for="category in movie.categories" 
+                :key="category.slug"
+                class="category-link"
+            >
+                {{ category.slug }}
+            </router-link>
+            </p>
+        </div>
+        <div class="notification is-success" v-if="successMessage">
+            <button class="delete" @click="successMessage = null"></button>
+            <p>{{ successMessage }}</p>
+        </div>
+        </div>
     </div>
-  </div>
 </template>
 
 
@@ -48,6 +52,7 @@ export default {
     const movie = ref(null); 
     const loading = ref(true); 
     const error = ref(null); 
+    const successMessage = ref(null);
 
     const fetchMovieDetails = async (movieSlug) => {
       try {
@@ -75,10 +80,10 @@ export default {
             "/api/v1/watched-movies/",
             data
         );
-        alert("Movie marked as watched!");
+        successMessage.value = "Movie marked as watched!";
       } catch (err) {
-        console.log(err);
-        alert("Failed to mark the movie. Please try again.");
+        console.log('err:', err);
+        error.value = "Failed to mark the movie. Please try again.";
       }
     };
 
@@ -105,6 +110,7 @@ export default {
       getImage,
       error,
       markAsWatched,
+      successMessage,
     };
   },
 };
