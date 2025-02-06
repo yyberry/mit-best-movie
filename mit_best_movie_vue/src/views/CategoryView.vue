@@ -6,10 +6,10 @@
 
     <!-- title -->
     <div class="category-title">
-        <h1 class="title is-1">{{ categorySlug.toUpperCase() }} Movies</h1>
+        <h1 class="title is-1 m-2">{{ categorySlug.toUpperCase() }} Movies</h1>
         <button 
             v-if="isDynamic" 
-            class="button is-primary is-small" 
+            class="button is-primary is-small m-5" 
             @click="refreshCategory"
             :disabled="isLoading"
         >

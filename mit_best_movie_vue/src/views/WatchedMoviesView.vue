@@ -6,7 +6,7 @@
 
     <!-- title -->
     <div class="page-title">
-      <h1 class="title is-1">Watched Movies</h1>
+      <h1 class="title is-1 m-5">Watched Movies</h1>
     </div>
 
     <!-- movie list -->
