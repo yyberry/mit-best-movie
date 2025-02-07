@@ -10,4 +10,5 @@ urlpatterns = [
     path('watched-movies/', views.WatchedMoviesView.as_view()),
     path('watched-movies/<int:movie_id>/', views.RemoveWatchedMovie.as_view()),
     path('category/<slug:category_slug>/refresh/', views.RefreshDynamicCategoryView.as_view()),
+    path('last-update/', views.last_update),
 ]

@@ -7,14 +7,15 @@
     <!-- title -->
     <div class="category-title">
         <h1 class="title is-1 m-2">{{ categorySlug.toUpperCase() }} Movies</h1>
-        <button 
+        <p class="m-2">Last updated: {{ formattedLastUpdate }}</p>
+        <!-- <button 
             v-if="isDynamic" 
             class="button is-primary is-small m-5" 
             @click="refreshCategory"
             :disabled="isLoading"
         >
             Refresh
-        </button>
+        </button> -->
     </div>
 
     <!-- movies list -->
@@ -59,6 +60,8 @@ export default {
     const categorySlug = ref('');
     const isDynamic = ref(false);
     const isLoading = ref(false);
+    const lastUpdate = ref(null);
+    const formattedLastUpdate = ref('');
 
     const route = useRoute(); // get the current route object
 
@@ -83,13 +86,26 @@ export default {
             } else {
                 
             }
-            
         }
-
         categorySlug.value = cSlug;
       } catch (error) {
         console.error('Error fetching movies:', error);
       }
+    };
+
+    const fetchLastUpdateTime = async () => {
+        try {
+            const response = await axios.get(`/api/v1/last-update/`);
+            lastUpdate.value = response.data.last_update;
+
+            // 格式化日期，只显示日期部分
+            if (lastUpdate.value) {
+                const date = new Date(lastUpdate.value);
+                formattedLastUpdate.value = date.toLocaleDateString();  // default: yyyy-mm-dd 
+            }
+        } catch (error) {
+            console.error('Error fetching last update:', error);
+        }
     };
 
     // refresh movies
@@ -117,6 +133,7 @@ export default {
     onMounted(() => {
       const cSlug = route.params.category_slug; // get the category slug from the URL
       fetchMoviesByCategory(cSlug);
+      fetchLastUpdateTime();
     });
 
     watch(
@@ -134,6 +151,8 @@ export default {
       categorySlug,
       isDynamic,
       isLoading,
+      lastUpdate,
+      formattedLastUpdate,
       refreshCategory,
       getImage
     };

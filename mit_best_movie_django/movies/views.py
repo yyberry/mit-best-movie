@@ -1,9 +1,9 @@
 from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, authentication, permissions
-
-from rest_framework.exceptions import ValidationError
 
 from .serializers import MovieSerializer, CategorySerializer, WatchedMovieSerializer, AddWatchedMovieSerializer
 from .models import Movie, Category, WatchedMovie
@@ -145,4 +145,10 @@ class RemoveWatchedMovie(APIView):
 
         return Response({"message": "Movie removed from watched list!"}, status=status.HTTP_204_NO_CONTENT)
 
-    
+def last_update(request):
+    try:
+        with open("last_update.txt", "r") as f:
+            last_update_time = f.read()
+        return JsonResponse({"last_update": last_update_time})
+    except FileNotFoundError:
+        return JsonResponse({"last_update": "Not available"})
