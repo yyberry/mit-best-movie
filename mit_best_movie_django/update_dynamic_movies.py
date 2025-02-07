@@ -2,18 +2,18 @@ import os
 import django
 from django.conf import settings
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mit_best_movie_django.settings')
-django.setup()
+if not settings.configured:
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mit_best_movie_django.settings')
+    django.setup()
 
-from movies.models import Category
 from db_initializer import initialize_movie
-from django.core.exceptions import ObjectDoesNotExist
 
 from datetime import datetime
 
 def fetch_dynamic_movies():
-    """定期更新所有 is_dynamic=True 的类别的电影数据"""
-    # 获取所有动态类别
+    from movies.models import Category
+    """Periodically update movie data for all categories with is_dynamic=True"""
+    # get all dynamic categories
     dynamic_categories = Category.objects.filter(is_dynamic=True)
 
     if not dynamic_categories.exists():
@@ -33,16 +33,16 @@ def fetch_dynamic_movies():
                 print(f"Removing category '{category.slug}' from movie: {movie.title}")
                 movie.categories.remove(category)
 
-        # 调用你的爬虫来爬取新的电影数据
+        # update the dynamic movies data 
         initialize_movie([category])
     
-    # 记录更新时间
+    # record update time
     update_last_run_time()
 
     print("All dynamic categories updated successfully!")
 
 def update_last_run_time():
-    """记录上次更新的时间"""
+    """record last update time"""
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     file_path = os.path.join(settings.BASE_DIR, "last_update.txt")
     with open(file_path, "w") as f:
