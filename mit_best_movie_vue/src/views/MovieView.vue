@@ -3,38 +3,38 @@
         <div v-if="loading" class="loading">Loading...</div>
         <div v-else-if="error" class="notification is-danger">{{ error }}</div>
         <div v-else class="column is-4 is-offset-4">
-        <div class="movie-poster">
-            <img :src="getImage(movie.poster)" :alt="movie.title" />
-        </div>
+            <div class="movie-poster">
+                <img :src="getImage(movie.poster)" :alt="movie.title" />
+            </div>
 
-        <div class="movie-info">
-            <h1 class="title">{{ movie.title }}</h1>
-            
-            <!-- Watched button -->
-            <button 
-            class="button is-primary" 
-            @click="markAsWatched"
-            >
-            Watched
-            </button>
+            <div class="movie-info">
+                <h1 class="title">{{ movie.title }}</h1>
+                
+                <!-- Watched button -->
+                <button 
+                class="button is-primary" 
+                @click="markAsWatched"
+                >
+                Watched
+                </button>
 
-            <p><strong>Rating:</strong> {{ movie.rating }}</p>
-            <p>
-            <strong>Genre:</strong>
-            <router-link 
-                :to="`/category/${category.slug}`" 
-                v-for="category in movie.categories" 
-                :key="category.slug"
-                class="category-link"
-            >
-                {{ category.slug }}
-            </router-link>
-            </p>
-        </div>
-        <div class="notification is-success" v-if="successMessage">
-            <button class="delete" @click="successMessage = null"></button>
-            <p>{{ successMessage }}</p>
-        </div>
+                <p><strong>Rating:</strong> {{ movie.rating }}</p>
+                <p>
+                <strong>Genre:</strong>
+                <router-link 
+                    :to="`/category/${category.slug}`" 
+                    v-for="category in movie.categories" 
+                    :key="category.slug"
+                    class="category-link"
+                >
+                    {{ category.slug }}
+                </router-link>
+                </p>
+            </div>
+            <div class="notification is-success" v-if="successMessage">
+                <button class="delete" @click="successMessage = null"></button>
+                <p>{{ successMessage }}</p>
+            </div>
         </div>
     </div>
 </template>

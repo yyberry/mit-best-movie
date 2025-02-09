@@ -5,9 +5,9 @@
       <div class="content">
         <div class="text-section">
           <h1>A Movie Website Built for Me, by Me!</h1>
-          <strong>Tailored Features</strong>
+          <strong>Personalized Movie Discovery</strong>
           <strong>Track & Update with Ease</strong>
-          <strong>Built for My Preferences</strong>
+          <strong>Find Your Next Favorite Film</strong>
         </div>
         <div class="poster-section">
           <div
