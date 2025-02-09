@@ -4,10 +4,11 @@
     <!-- <div class="main-container" v-show="showMainContainer"> -->
       <div class="content">
         <div class="text-section">
-          <h1>A Movie Website Built for Me, by Me!</h1>
-          <strong>Personalized Movie Discovery</strong>
-          <strong>Track & Update with Ease</strong>
-          <strong>Find Your Next Favorite Film</strong>
+          <p class="title">Mit Best Movie </p>
+          <p class="subtitle"> Your Personalized Movie Platform </p>  
+          <strong>Discover New Movies Tailored to Your Taste</strong>
+          <strong>Track & Organize Your Movie Watchlist</strong>
+          <strong>Effortlessly Find Your Next Favorite Film</strong>
         </div>
         <div class="poster-section">
           <div

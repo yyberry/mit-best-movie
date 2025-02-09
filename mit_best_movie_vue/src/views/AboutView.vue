@@ -6,16 +6,16 @@
       
         <div class="content is-medium">
           <p>
-            Welcome to my personalized movie website! Designed to enhance your movie-watching experience, it offers a range of features to help you discover and manage your favorite films with ease.
+            Welcome to my personalized movie website! Designed to enhance your movie-watching experience, it provides a variety of features that make discovering and managing your favorite films easier than ever.
           </p>
           <ul>
-            <li>Browse the top 7 highest-rated movies from each category on the homepage, making it easier to find great films at a glance.</li>
-            <li>Search for movies by category to quickly find films that match your interests.</li>
-            <li>Mark movies as watched to keep track of what you've seen—watched movies are hidden from other pages but can be managed in your personal list.</li>
-            <li>Enjoy regularly updated movie categories: dynamic categories refresh automatically every week, while non-dynamic categories can be updated manually.</li>
+            <li>Browse the top-rated movies from each category on the homepage, helping you easily discover exciting films based on ratings.</li>
+            <li>Search for movies by title using the search bar, with dynamic search results displayed as you type, making it quick to find your next movie.</li>
+            <li>Mark movies as watched to keep track of what you've seen—watched movies will be hidden from other pages but can be managed in your personal list.</li>
+            <li>Experience regularly updated movie categories: dynamic categories refresh automatically every week, while non-dynamic categories can be updated manually through the admin panel.</li>
           </ul>
           <p>
-            My goal is to create an intuitive platform where movie lovers can effortlessly explore, track, and enjoy the best films based on ratings and genres.
+            My goal is to create an intuitive, user-friendly platform where movie lovers can easily explore, track, and enjoy the best films, based on ratings and genres.
           </p>
         </div>
       </div>

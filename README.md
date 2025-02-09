@@ -11,9 +11,10 @@ For a movie enthusiast like me, one of the most frustrating experiences is getti
 ## Movie Operations
 
 1. **For Guests**:
-   - **Browsing Movies**: Guests can explore the top six highest-rated movies on the homepage, along with the top seven highest-rated movies for each genre. Clicking on a movie poster leads to the movie details page, which displays the poster, rating, and genres. Clicking on a genre redirects to the category page, showing all movies in that category.
+   - **Movies Browsing**: Guests can explore the top six highest-rated movies on the homepage, along with the top seven highest-rated movies for each genre. Clicking on a movie poster leads to the movie details page, which displays the poster, rating, and genres. Clicking on a genre redirects to the category page, showing all movies in that category.
    - **Navigation Bar**: The navigation bar can be summoned by scrolling down on any page, allowing easy access to different sections of the website.
-   - **Movie Refresh**: I have categorized movies into two types based on whether they are dynamic. Dynamic categories are automatically updated every week, while non-dynamic categories must be updated manually. Additionally, I have added a 'Trigger Update' button in Django Admin for manual updates.
+   - **Movies Refreshing**: I have categorized movies into two types based on whether they are dynamic. Dynamic categories are automatically updated every week, while non-dynamic categories must be updated manually. Additionally, I have added a 'Trigger Update' button in Django Admin for manual updates.
+   - **Movies Searching**: Users can search for any movie by title using the search bar in the navbar on any page. As the user types each character, search results are dynamically displayed below the search box. Clicking on any movie in the search results will navigate to that movie's details page.
 2. **For Logged-in Users**:
    - **Marking Movies as Watched**:
      Logged-in users can mark movies as watched from the movie details page. Once marked, the movie will be hidden from other pages and will only appear on the user's **"My Account"** page. If a user has more than five watched movies, they can visit the **"Watched Movies"** page to view the full list.
