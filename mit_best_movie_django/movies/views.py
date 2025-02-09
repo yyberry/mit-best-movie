@@ -152,3 +152,15 @@ def last_update(request):
         return JsonResponse({"last_update": last_update_time})
     except FileNotFoundError:
         return JsonResponse({"last_update": "Not available"})
+
+class SearchMoviesAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        query = request.GET.get("q", "")  # get input key words
+        if query:
+            movies = Movie.objects.filter(title__icontains=query)  # search in movie titles
+        else:
+            movies = Movie.objects.all()  # get all movies
+
+        serializer = MovieSerializer(movies, many=True)
+
+        return Response(serializer.data)

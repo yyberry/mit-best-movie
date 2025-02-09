@@ -39,6 +39,8 @@
 
           <router-link to="/about" class="navbar-item">About</router-link>
 
+          <SearchBar />
+
           <div class="navbar-item">
             <template v-if="$store.state.isAuthenticated">
                 <router-link to="/my-account" class="button is-primary is-light">My account</router-link>
@@ -64,8 +66,12 @@
 import { ref, reactive, onMounted, onUnmounted, onBeforeMount } from "vue";
 import axios from 'axios';
 import { useStore } from 'vuex';
+import SearchBar from "./components/SearchBar.vue";
 
 export default {
+  components: {
+    SearchBar
+  },
   setup() {
     const showMobileMenu = ref(false);
     const showMovieCategories = ref(false);
