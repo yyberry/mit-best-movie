@@ -1,35 +1,34 @@
 <template>
     <div class="columns page-movie-detail">
-        <div v-if="loading" class="loading">Loading...</div>
+        <div v-if="loading" class="has-text-centered is-5">Loading...</div>
         <div v-else-if="error" class="notification is-danger">{{ error }}</div>
         <div v-else class="column is-4 is-offset-4">
-            <div class="movie-poster">
+            <div class="movie-poster m-5">
                 <img :src="getImage(movie.poster)" :alt="movie.title" />
             </div>
 
-            <div class="movie-info">
-                <h1 class="title">{{ movie.title }}</h1>
-                
-                <!-- Watched button -->
-                <button 
-                class="button is-primary" 
-                @click="markAsWatched"
-                >
-                Watched
-                </button>
-
-                <p><strong>Rating:</strong> {{ movie.rating }}</p>
-                <p>
-                <strong>Genre:</strong>
-                <router-link 
+            <div>
+                <h1 class="title has-text-centered">{{ movie.title }}</h1>
+                <div class="is-flex is-justify-content-center">
+                  <button 
+                  class="button is-primary is-light m-3" 
+                  @click="markAsWatched"
+                  >
+                    Watched
+                  </button>
+                </div>
+                <p class="has-text-centered"><strong>Rating:</strong> {{ movie.rating }}</p>
+                <div class="has-text-centered m-3">
+                  <strong>Genre: </strong>
+                  <router-link 
                     :to="`/category/${category.slug}`" 
                     v-for="category in movie.categories" 
                     :key="category.slug"
                     class="category-link"
-                >
-                    {{ category.slug }}
-                </router-link>
-                </p>
+                  >
+                      {{ category.slug }}, 
+                  </router-link>
+                </div>
             </div>
             <div class="notification is-success" v-if="successMessage">
                 <button class="delete" @click="successMessage = null"></button>
@@ -117,15 +116,8 @@ export default {
 </script>
 <style scoped>
 .page-movie-detail {
-    margin-top: 50px;
+    margin-top: 10vh;
     height: 100vh; 
-}
-
-.loading,
-.error {
-  text-align: center;
-  font-size: 18px;
-  color: #333;
 }
 
 .movie-poster {
@@ -136,32 +128,9 @@ export default {
 }
 
 .movie-poster img {
-  margin: 20px;
-  width: 70%;
+  width: 80%;
   height: auto;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.movie-info {
-  flex: 0.5;
-  display: flex;
-  flex-direction: column;
-  justify-content: center; 
-  align-items: center;
-  padding-left: 20px;
-}
-
-.title {
-  font-size: 2rem;
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.category-link {
-  color: #3273dc;
-  text-decoration: none;
-  margin-right: 5px;
+  border-radius: 1vw;
 }
 
 .category-link:hover {
