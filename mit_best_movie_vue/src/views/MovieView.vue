@@ -26,7 +26,7 @@
                     :key="category.slug"
                     class="category-link"
                   >
-                      {{ category.slug }}, 
+                      {{ category.slug }}&nbsp;
                   </router-link>
                 </div>
             </div>
@@ -133,7 +133,4 @@ export default {
   border-radius: 1vw;
 }
 
-.category-link:hover {
-  text-decoration: underline;
-}
 </style>

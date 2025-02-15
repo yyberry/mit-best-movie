@@ -6,7 +6,7 @@
 
     <!-- title -->
     <div class="page-title">
-      <h1 class="title is-1 m-5">Watched Movies</h1>
+      <h1 class="title is-1 m-5">Watched Movies </h1>
     </div>
 
     <!-- movie list -->
@@ -112,6 +112,14 @@ export default {
   padding: 0 20px;
 }
 
+.card {
+  flex-shrink: 0; 
+  width: 300px; 
+  height: 700px;
+  overflow-y: auto;
+  max-height: 700px;
+}
+
 .card:hover {
   transform: translateY(-5px);
 }
@@ -136,4 +144,5 @@ export default {
   font-size: 2rem;
   font-weight: bold;
 }
+
 </style>

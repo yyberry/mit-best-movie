@@ -1,29 +1,15 @@
 <template>
     <div class="page-my-account">
-        <div class="columns">
-            <div class="column is-4">
-                <h1 class="title">Welcome {{ username }}</h1>
-            </div>
-
-            <div class="column is-4">
-                <button @click="logout" class="button is-danger">Log out</button>
-            </div>
-                
-        </div>
+        
+        <h1 class="title">Welcome {{ username }}</h1>
 
         <hr>
-
-        <div class="columns">
-            <div class="column is-12">
-                <h2
-                    class="subtitle has-text-weight-bold has-text-primary is-clickable"
-                    @click="goToWatchedMovies"
-                >
-                    Watched Movies
-                    
-                </h2>
-            </div>
-        </div>
+        <h2
+            class="subtitle has-text-weight-bold has-text-primary is-clickable"
+            @click="goToWatchedMovies"
+        >
+            Watched Movies >>
+        </h2>
         
         <div v-if="loading" class="loading">Loading...</div>
         <div v-else-if="error" class="error">{{ error }}</div>
@@ -36,37 +22,32 @@
                     </button>
                 </div>
             </div>
-            <div class="columns is-multiline">
+            <div class="watched-movies-container">
                 <div 
                     v-for="watchedmovie in watchedMovies" 
                     :key="watchedmovie.movie.id" 
-                    class="column is-2"
+                    class="card"
                 >
-                    <div class="card card-container">
-                        <div class="card-image">
-                            <figure class="image is-2by3">
-                                <router-link :to="`/movie/${watchedmovie.movie.slug}`">
-                                    <img :src="getImage(watchedmovie.movie.poster)"  :alt="watchedmovie.movie.title"/>
-                                </router-link>
-                                
-                            </figure>
-                        </div>
-                        <div class="card-content">
-                            <h3 class="title is-4">{{ watchedmovie.movie.title }}</h3>
-                            <p class="content"><strong>Watched on:</strong> {{ formatDate(watchedmovie.watched_at) }}</p>
-                        </div>
+                    <div class="card-image">
+                        <figure class="image is-2by3">
+                            <router-link :to="`/movie/${watchedmovie.movie.slug}`">
+                                <img :src="getImage(watchedmovie.movie.poster)"  :alt="watchedmovie.movie.title"/>
+                            </router-link>
+                            
+                        </figure>
                     </div>
-                </div>
-
-                <div v-if="watchedMovies.length === 5" class="column is-1 is-flex is-align-items-stretch">
-                    <button @click="goToWatchedMovies" class="button m-3 is-light is-fullwidth">
-                        > >
-                    </button>
+                    <div class="card-content has-text-centered">
+                        <h3 class="title is-6">{{ watchedmovie.movie.title }}</h3>
+                        <p class="content"><strong>Watched on:</strong> {{ formatDate(watchedmovie.watched_at) }}</p>
+                    </div>
                 </div>
                 
             </div>
         </div>
         <hr>
+        <div>
+            <button @click="logout" class="button is-danger m-5">Log out</button>
+        </div>
     </div>
 </template>
 
@@ -91,7 +72,7 @@ export default {
         const fetchWatchedMovies = async () => {
             try {
                 const token = localStorage.getItem("token");
-                const response = await axios.get("/api/v1/watched-movies/?recent=true");
+                const response = await axios.get("/api/v1/watched-movies");
                 watchedMovies.value = response.data;
                 console.log("watched movies: ",watchedMovies.value)
             } catch (err) {
@@ -164,10 +145,19 @@ export default {
     height: 100vh; 
 }
 
-.card-container {
+.watched-movies-container {
   display: flex;
-  flex-direction: column;
-  height: 100%;
+  overflow-x: auto; 
+  gap: 20px; 
+  padding-bottom: 15px; 
+}
+
+.card {
+  flex-shrink: 0; 
+  width: 200px; 
+  height: 500px;
+  overflow-y: auto;
+  max-height: 500px;
 }
 
 </style>

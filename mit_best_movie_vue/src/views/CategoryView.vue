@@ -5,9 +5,9 @@
     </div>
 
     <!-- title -->
-    <div class="category-title">
-        <h1 class="title is-1 m-2">{{ categorySlug.toUpperCase() }} Movies</h1>
-        <p class="m-2">Last updated: {{ formattedLastUpdate }}</p>
+    <div class="has-text-centered">
+        <h1 class="title is-1 mt-5 mb-3">{{ categorySlug.toUpperCase() }} Movies</h1>
+        <p v-if="isDynamic" class="m-2">Last updated: {{ formattedLastUpdate }}</p>
         <!-- <button 
             v-if="isDynamic" 
             class="button is-primary is-small m-5" 
@@ -39,7 +39,7 @@
               v-for="category in movie.categories" 
               :key="category.slug"
             >
-              {{ category.slug }},
+              {{ category.slug }}&nbsp;
             </router-link>
           </p>
         </div>
@@ -161,15 +161,19 @@ export default {
 </script>
 
 <style scoped>
-.category-title {
-  text-align: center;
-}
-
 .movies-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
   padding: 0 20px;
+}
+
+.card {
+  flex-shrink: 0; 
+  width: 300px; 
+  height: 700px;
+  overflow-y: auto;
+  max-height: 700px;
 }
 
 .card:hover {
@@ -196,4 +200,6 @@ export default {
   font-size: 2rem;
   font-weight: bold;
 }
+
+
 </style>
