@@ -1,5 +1,6 @@
 import pandas as pd
-
+import random
+import string
 
 '''
 crawl_movie_types: crawl category info(return name(category name), link, is_dynamic, slug)
@@ -18,6 +19,19 @@ import django
 def setup_django():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mit_best_movie_django.settings')
     django.setup()
+
+def generate_unique_slug(category_slug, movie_idx):
+    from movies.models import Category, Movie
+    """
+    Generates a unique slug using category slug, movie index, and a random suffix.
+    """
+    base_slug = f"{category_slug.lower().replace(' ', '-')}-{movie_idx + 1}"
+    # Check if the slug already exists
+    if Movie.objects.filter(slug=base_slug).exists():
+        # Append a random string to ensure uniqueness
+        random_suffix = ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
+        base_slug = f"{base_slug}-{random_suffix}"
+    return base_slug
 
 def initialize_category(url):
     from movies.models import Category, Movie
@@ -64,7 +78,7 @@ def initialize_movie(category_objs):
                     url=row['link'],
                     defaults={
                         'title': movie_details_df.iloc[0]['name'],
-                        'slug': f"{category.slug.lower().replace(' ', '-')}-{idx + 1}",  # generate a slug using the category name and an incremental number
+                        'slug': generate_unique_slug(category.slug, idx),  # generate a slug using the category name and an incremental number
                         'rating': movie_details_df.iloc[0]['rate_score'],
                         'poster': movie_details_df.iloc[0]['img'],
                     }
@@ -104,7 +118,7 @@ def initialize_movie(category_objs):
                     url=row['link'],
                     defaults={
                         'title': row['name'],
-                        'slug': f"{category.slug.lower().replace(' ', '-')}-{idx + 1}",  # generate a slug using the category name and an incremental number
+                        'slug': generate_unique_slug(category.slug, idx),  # generate a slug using the category name and an incremental number
                         'rating': row['rate_score'],
                         'poster': row['img'],
                     }

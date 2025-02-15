@@ -15,7 +15,7 @@
         class="search-item"
       >
         <img :src="getImage(movie.poster)" :alt="movie.title" class="poster" />
-        <span>{{ movie.title }}</span>
+        <span>{{ movie.title }}, {{movie.slug}}</span>
       </div>
     </div>
   </div>
