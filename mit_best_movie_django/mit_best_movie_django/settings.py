@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-sf1fgfvn0wfh)rd!b!75rt6+hznwv#v3cpti*=o@lxl+xd!lt+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -46,13 +46,14 @@ INSTALLED_APPS = [
     'movies',
 ]
 
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:8080"
-# ]
+CORS_ALLOW_ALL_ORIGINS = False
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080", 
+    "http://192.168.3.4:8080",
+]
 
-
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

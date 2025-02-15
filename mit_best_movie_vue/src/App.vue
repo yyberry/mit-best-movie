@@ -4,7 +4,14 @@
       <div class="navbar-brand">
         <router-link to="/" class="navbar-item"><strong>Mit Best Movie</strong></router-link>
 
-        <a class="navbar-burger" role="button" aria-label="menu" aria-expanded="false" data-target="navbar-menu" @click="showMobileMenu = !showMobileMenu">
+        <a 
+          class="navbar-burger" 
+          role="button" 
+          aria-label="menu" 
+          aria-expanded="false" 
+          data-target="navbar-menu" 
+          @click="showMobileMenu = !showMobileMenu"
+        >
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -43,12 +50,12 @@
 
           <div class="navbar-item">
             <template v-if="$store.state.isAuthenticated">
-                <router-link to="/my-account" class="button is-primary is-light">My account</router-link>
-              </template>
+              <router-link to="/my-account" class="button is-primary is-light">My account</router-link>
+            </template>
 
-              <template v-else>
-                <router-link to="/log-in" class="button is-primary is-light">Log in</router-link>
-              </template>
+            <template v-else>
+              <router-link to="/log-in" class="button is-primary is-light">Log in</router-link>
+            </template>
 
           </div>
 
@@ -87,9 +94,9 @@ export default {
       const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
       if (currentScrollTop > state.lastScrollTop) {
-        state.showNavbar = true; // display the navbar when the user scrolls down and the scroll distance is greater than 50 pixels
+        state.showNavbar = true; 
       } else if (currentScrollTop < state.lastScrollTop) {
-        state.showNavbar = false; // display the navbar when the user scrolls up and the scroll distance is greater than 50 pixels
+        state.showNavbar = false; 
       }
 
       state.lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop; // prevent negative scroll values
@@ -148,7 +155,7 @@ export default {
 
 <style scoped>
 .section {
-  padding: 1px; 
+  padding: 1vw; 
 }
 
 .navbar {
@@ -158,7 +165,7 @@ export default {
   opacity: 0; 
   visibility: hidden; 
   transition: opacity 0.5s ease, visibility 0.5s ease; 
-  z-index: 1000; 
+  z-index: 10000; 
 }
 
 .navbar.show {
@@ -168,17 +175,7 @@ export default {
 
 .navbar-dropdown {
   overflow-y: auto;  
-  position: absolute;  
-  top: 100%; 
-  left: 0; 
-  z-index: 1000;  
-  width: auto;  
-  height: auto;
-  max-height: 300px; 
-}
-
-.navbar-item.has-dropdown {
-  position: relative; 
+  max-height: 30vh; 
 }
 
 </style>

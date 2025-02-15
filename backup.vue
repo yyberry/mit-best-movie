@@ -1,18 +1,14 @@
 <template>
   <div>
-    <div class="main-container">
+    <div :class="['main-container', { show: showMainContainer }]">
     <!-- <div class="main-container" v-show="showMainContainer"> -->
-      <div class="text-poster-container">
-        <div class="text-section has-text-centered">
+      <div class="content">
+        <div class="text-section">
           <p class="title">Mit Best Movie </p>
           <p class="subtitle"> Your Personalized Movie Platform </p>  
-          <div class="content is-small">
-            <strong>Discover New Movies Tailored to Your Taste </strong>
-            <br>
-            <strong>Track & Organize Your Movie Watchlist</strong>
-            <br>
-            <strong>Effortlessly Find Your Next Favorite Film</strong>
-          </div>
+          <strong>Discover New Movies Tailored to Your Taste</strong>
+          <strong>Track & Organize Your Movie Watchlist</strong>
+          <strong>Effortlessly Find Your Next Favorite Film</strong>
         </div>
         <div class="poster-section">
           <div
@@ -35,9 +31,9 @@
       </div>
     </div>
     
-    <div v-for="(category, categoryIndex) in categories" :key="categoryIndex">
+    <div v-for="(category, categoryIndex) in categories" :key="categoryIndex" class="category-section">
       <router-link :to="`/category/${category.category}`">
-        <h2 class="title mt-5 mb-3 has-text-centered">{{ category.category || 'No Title' }}</h2>
+        <h2 class="category-title">{{ category.category || 'No Title' }}</h2>
       </router-link>
       <div id="banner">
         <div class="carousel">
@@ -82,6 +78,8 @@ export default {
     const currentIndexMap = reactive({}); // the current movie index for each category
     const hoveredIndex = ref(null); // the index of the poster currently being hovered over
     const currentIndex = ref(0); // the index of the currently centered item
+    const lastScrollTop = ref(0); // the last scroll position
+    const showMainContainer = ref(false);
 
     const getImage = (_url) => {
       if (_url) {
@@ -93,16 +91,14 @@ export default {
     const getPosterStyle = (index) => {
       const isHovered = hoveredIndex.value === index;
       const isLeftColumn = index % 2 === 0;
-      const offsetX1 = isLeftColumn ? "10%" : "auto"; 
-      const offsetX2 = isLeftColumn ? "auto" : "10%"
+      const offsetX = isLeftColumn ? "10%" : "45%"; 
       const offsetY = Math.floor(index / 2) * 30;
       const tiltAngle = 25;
 
       return {
         position: "absolute",
         top: `${offsetY}%`,
-        left: `${offsetX1}`,
-        right: `${offsetX2}`,
+        left: `${offsetX}`,
         transform: isHovered ? `scale(1.2) rotate(0deg)` : `rotate(${tiltAngle}deg)`,
         zIndex: isHovered ? 100 : 1,
         transition: "transform 0.3s ease, z-index 0.3s ease",
@@ -131,28 +127,38 @@ export default {
       let translateX = 0;
       let zIndex = 0;
       let scale = 1;
-      const screenWidth = window.innerWidth;
-      let baseScale = screenWidth > 768 ? 1 : 0.9;
 
       if (offset === 0) {
-        translateX = "0vw";
+        translateX = 0;
         zIndex = 10;
-        scale = baseScale;
+        scale = 1;
       } else if (offset <= Math.floor(total / 2)) {
-        translateX = `calc(${offset} * ${"10vw"})`;
+        translateX = offset * 150;
         zIndex = 10 - offset;
-        scale = baseScale - offset * 0.1;
+        scale = 1 - offset * 0.1;
       } else {
-        translateX = `calc(${offset - total} * ${"10vw"})`;
+        translateX = (offset - total) * 150;
         zIndex = 10 - (total - offset);
-        scale = baseScale - (total - offset) * 0.1;
+        scale = 1 - (total - offset) * 0.1;
       }
 
       return {
-        transform: `translateX(${translateX}) scale(${scale})`,
+        transform: `translateX(${translateX}px) scale(${scale})`,
         zIndex: zIndex,
         transition: "transform 0.5s ease, z-index 0.5s ease",
       };
+    };
+
+    const handleScroll = () => {
+      const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+      if (currentScrollTop > lastScrollTop.value && currentScrollTop > 1) {
+        showMainContainer.value = true;
+      } else if (currentScrollTop < lastScrollTop.value || currentScrollTop <= 1) {
+        showMainContainer.value = false;
+      }
+
+      lastScrollTop.value = currentScrollTop <= 0 ? 0 : currentScrollTop;
     };
 
     const fetchData = () => {
@@ -168,20 +174,28 @@ export default {
     };
 
     onMounted(() => {
+      window.addEventListener("scroll", handleScroll);
       fetchData();
     });
+
+    onBeforeUnmount(() => {
+      window.removeEventListener("scroll", handleScroll);
+    });
+
     return {
       newMovies,
       categories,
       currentIndexMap,
       hoveredIndex,
       currentIndex,
+      showMainContainer,
       getImage,
       getPosterStyle,
       onHover,
       onLeave,
       handleClick,
       getItemStyle,
+      handleScroll,
     };
   },
 };
@@ -198,13 +212,21 @@ export default {
   background-position: top center;
   background-attachment: fixed; 
   overflow: hidden;
+
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 2s ease, visibility 2s ease;
 }
 
-.text-poster-container {
+.main-container.show{
+  opacity: 0;
+  visibility: hidden;
+}
+
+.content {
   display: flex;
   justify-content: flex-start; 
   align-items: flex-start;
-  flex-wrap: wrap;
   height: 100%;
 }
 
@@ -212,8 +234,11 @@ export default {
   position: relative;
   flex: 0.5; 
   color: black;
+  font-size: 1vw;
+  line-height: 2vw;
   display: flex;
   justify-content: center; 
+  align-items: center;
   height: 100vh;
   flex-direction: column;
 }
@@ -225,7 +250,6 @@ export default {
   width: 100%;
   overflow: hidden; 
   padding: 0%;
-  flex-wrap: wrap;
 }
 
 .poster {
@@ -238,10 +262,10 @@ export default {
 }
 
 .poster img {
-  width: 100%; 
+  width: 240px; 
   height: auto;
-  box-shadow: 0 4vw 10vw rgba(0, 0, 0, 0.3); 
-  border-radius: 1vw; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+  border-radius: 6px; 
   transition: opacity 0.3s ease-in-out; 
 }
 
@@ -270,11 +294,28 @@ export default {
   opacity: 1;
 }
 
+.movie-info h3,
+.movie-info p {
+  margin: 0;
+}
+
+.category-title {
+  text-align: center;
+  margin: 4rem 0 0.5rem 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.category-section {
+  margin-bottom: 2rem;
+}
+
 #banner {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 40vh;
+  perspective: 1000px;
+  height: 50vh;
   position: relative;
 }
 
@@ -284,13 +325,13 @@ export default {
   align-items: center;
   position: relative;
   width: 100%; 
-  height: 100%;
+  height: 80%;
 }
 
 .carousel-item {
   position: absolute;
-  width: "auto";
-  height: 35vh;
+  width: 18rem;
+  height: 24rem;
   backface-visibility: hidden;
   transition: transform 0.5s ease, z-index 0.5s ease;
 }
@@ -299,7 +340,8 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 1vh;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .image-info {
@@ -309,7 +351,7 @@ export default {
   transform: translateX(-50%);
   font-size: 1rem;
   color: white;
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
 }
 
 .navigation-buttons {
@@ -318,7 +360,7 @@ export default {
   width: 100%;
   display: flex;
   justify-content: center; 
-  gap: 2vw; 
+  gap: 1rem; 
 }
 
 .nav-button {
@@ -327,10 +369,11 @@ export default {
   border: 1px solid white;
   cursor: pointer;
   border-radius: 50%;
-  padding: 1vw;
+  padding: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 </style>
