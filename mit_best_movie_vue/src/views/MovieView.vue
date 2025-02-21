@@ -66,7 +66,7 @@ export default {
     };
 
     const markAsWatched = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("accessToken");
       if (!token) {
         // if the user is not logged in, redirect to the login page
         router.push("/log-in");
@@ -117,6 +117,7 @@ export default {
 <style scoped>
 .page-movie-detail {
     height: 100vh; 
+    margin-top: 50px;
 }
 
 .movie-poster {

@@ -58,7 +58,6 @@ export default {
         // clear the error messages
         errors.value = [];
         axios.defaults.headers.common['Authorization'] = '';
-        localStorage.removeItem('token');
 
         const formData = {
             username: username.value,
@@ -66,31 +65,29 @@ export default {
         };
 
         try {
-            const response = await axios.post('/api/v1/token/login/', formData, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-            });
+            const response = await axios.post('/api/v1/login/', formData);
 
             console.log(response.data);  
-            const token = response.data.auth_token;
+            const { access, refresh } = response.data;
 
-            // store user name
+            // store Token and user name
+            localStorage.setItem('accessToken', access);
+            localStorage.setItem('refreshToken', refresh);
             localStorage.setItem('username', username.value);  
 
             // update Vuex Store
-            store.commit('setToken', token);
+            store.commit('setAccessToken', access);
+            store.commit('setRefreshToken', refresh);
+            console.log('Access Token:', access);
+            console.log('Refresh Token:', refresh);
 
             // set Axios headers
-            axios.defaults.headers.common['Authorization'] = 'Token ' + token;
-
-            // store Token 
-            localStorage.setItem('token', token);
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + access;
 
             // navigate to the specified page
             const toPath = route.query.to || '/my-account';
+            console.log('Navigating to:', toPath);
             router.push(toPath);
-
             } catch (error) {
                 console.log(error);  
                 if (error.response) {
@@ -115,7 +112,8 @@ export default {
 
 <style scoped>
 .page-log-in {
-  margin-top: 50px;
+    height: 100vh;
+    margin-top: 50px;
 }
 
 </style>

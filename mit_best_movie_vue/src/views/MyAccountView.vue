@@ -71,7 +71,7 @@ export default {
 
         const fetchWatchedMovies = async () => {
             try {
-                const token = localStorage.getItem("token");
+                const token = localStorage.getItem("accessToken");
                 const response = await axios.get("/api/v1/watched-movies");
                 watchedMovies.value = response.data;
                 console.log("watched movies: ",watchedMovies.value)
@@ -86,11 +86,15 @@ export default {
         const logout = () => {
             axios.defaults.headers.common['Authorization'] = '';
 
-            localStorage.removeItem('token');
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
             localStorage.removeItem('username');
             localStorage.removeItem('userid');
 
             store.commit('removeToken');
+
+            axios.defaults.headers.common['Authorization'] = '';
+
             router.push('/');
         };
 

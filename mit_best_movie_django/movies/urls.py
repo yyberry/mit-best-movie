@@ -12,4 +12,5 @@ urlpatterns = [
     path('category/<slug:category_slug>/refresh/', views.RefreshDynamicCategoryView.as_view()),
     path('last-update/', views.last_update),
     path("search/", views.SearchMoviesAPIView.as_view()),
+    path('login/', views.LoginView.as_view()),
 ]

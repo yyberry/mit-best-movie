@@ -13,6 +13,13 @@ from db_initializer import initialize_movie
 
 from datetime import datetime
 
+def update_last_run_time():
+    """record last update time"""
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    file_path = os.path.join(settings.BASE_DIR, "last_update.txt")
+    with open(file_path, "w") as f:
+        f.write(timestamp)
+
 def generate_unique_slug_when_find_duplicate_slugs(base_slug):
     from movies.models import Movie
     """
@@ -55,7 +62,8 @@ def check_and_update_duplicate_slugs():
                     movie.slug = new_slug
                     movie.save()
             print(f"Updated duplicate slugs for: {slug}")
-        print("All slugs are unique now!")
+        
+    print("All slugs are unique now!")
 
 def fetch_dynamic_movies():
     from movies.models import Category
@@ -89,13 +97,6 @@ def fetch_dynamic_movies():
     check_and_update_duplicate_slugs()
 
     print("All dynamic categories updated successfully!")
-
-def update_last_run_time():
-    """record last update time"""
-    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    file_path = os.path.join(settings.BASE_DIR, "last_update.txt")
-    with open(file_path, "w") as f:
-        f.write(timestamp)
 
 if __name__ == "__main__":
     fetch_dynamic_movies()

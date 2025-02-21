@@ -60,10 +60,10 @@
       </div>
 
       <div class="navigation-buttons">
-        <button @click="handleClick('prev', categoryIndex)" class="nav-button left">
+        <button @click="handleClick('prev', categoryIndex)" class="button is-light is-rounded left">
           <strong>←</strong> 
         </button>
-        <button @click="handleClick('next', categoryIndex)" class="nav-button right">
+        <button @click="handleClick('next', categoryIndex)" class="button is-light is-rounded right">
           <strong>→</strong>
         </button>
       </div>
@@ -240,7 +240,6 @@ export default {
 .poster img {
   width: 100%; 
   height: auto;
-  box-shadow: 0 4vw 10vw rgba(0, 0, 0, 0.3); 
   border-radius: 1vw; 
   transition: opacity 0.3s ease-in-out; 
 }
@@ -322,8 +321,6 @@ export default {
 }
 
 .nav-button {
-  /* background: white; */
-  border: white;
   border: 1px solid white;
   cursor: pointer;
   border-radius: 50%;

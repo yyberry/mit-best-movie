@@ -1,9 +1,13 @@
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 
+from django.contrib.auth import authenticate
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, authentication, permissions
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from .serializers import MovieSerializer, CategorySerializer, WatchedMovieSerializer, AddWatchedMovieSerializer
 from .models import Movie, Category, WatchedMovie
@@ -13,7 +17,7 @@ from db_initializer import initialize_movie
 
 
 class NewMovies(APIView):
-    authentication_classes = [authentication.TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
     permission_classes = [permissions.AllowAny]
 
     def get(self, request, *args, **kwargs):
@@ -32,7 +36,7 @@ class NewMovies(APIView):
         return Response(serializer.data)
 
 class TopRatedMoviesByCategoryList(APIView):
-    authentication_classes = [authentication.TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
     permission_classes = [permissions.AllowAny]
 
     def get(self, request, *args, **kwargs):
@@ -58,7 +62,7 @@ class TopRatedMoviesByCategoryList(APIView):
         return Response(result)
     
 class AllMoviesByCategory(APIView):
-    authentication_classes = [authentication.TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
     permission_classes = [permissions.AllowAny]
 
     def get(self, request, *args, **kwargs):
@@ -88,7 +92,7 @@ class MovieDetail(APIView):
         return Response(serializer.data)
 
 class WatchedMoviesView(APIView):
-    authentication_classes = [authentication.TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
@@ -133,7 +137,7 @@ class RefreshDynamicCategoryView(APIView):
         return Response({"message": "Category refreshed successfully"}, status=status.HTTP_200_OK)
     
 class RemoveWatchedMovie(APIView):
-    authentication_classes = [authentication.TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
     def delete(self, request, movie_id):
@@ -164,3 +168,19 @@ class SearchMoviesAPIView(APIView):
         serializer = MovieSerializer(movies, many=True)
 
         return Response(serializer.data)
+    
+class LoginView(APIView):
+    def post(self, request, *args, **kwargs):
+        username = request.data.get("username")
+        password = request.data.get("password")
+
+        user = authenticate(request, username=username, password=password)
+
+        if user:
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                'access': str(refresh.access_token),
+                'refresh': str(refresh),
+            }, status=status.HTTP_200_OK)
+
+        return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
