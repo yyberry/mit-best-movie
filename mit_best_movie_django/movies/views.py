@@ -86,10 +86,14 @@ class AllGenre(APIView):
 class MovieDetail(APIView):
     def get(self, request, *args, **kwargs):
         movie = Movie.objects.filter(slug=kwargs.get('movie_slug')).first()
+        if request.user.is_authenticated:
+            is_watched = WatchedMovie.objects.filter(user=request.user, movie=movie).exists()
+        else:
+            is_watched = False
         if not movie:
             return Response([])
         serializer = MovieSerializer(movie)
-        return Response(serializer.data)
+        return Response({"movie":serializer.data, "is_watched": is_watched})
 
 class WatchedMoviesView(APIView):
     authentication_classes = [JWTAuthentication]
@@ -147,7 +151,7 @@ class RemoveWatchedMovie(APIView):
         # Delete the watched movie entry
         watched_movie.delete()
 
-        return Response({"message": "Movie removed from watched list!"}, status=status.HTTP_204_NO_CONTENT)
+        return Response({"message": "Movie removed from watched list!"}, status=status.HTTP_200_OK)
 
 def last_update(request):
     try:

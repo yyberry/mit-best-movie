@@ -10,11 +10,12 @@
             <div>
                 <h1 class="title has-text-centered">{{ movie.title }}</h1>
                 <div class="is-flex is-justify-content-center">
-                  <button 
-                  class="button is-primary is-light m-3" 
-                  @click="markAsWatched"
+                  <button
+                    class="button"
+                    :class="isWatched ? 'is-danger m-3' : 'is-primary is-light m-3'"
+                    @click="toggleWatched(movie.id)"
                   >
-                    Watched
+                    {{ isWatched ? "Remove from Watched" : "Watched" }}
                   </button>
                 </div>
                 <p class="has-text-centered"><strong>Rating:</strong> {{ movie.rating }}</p>
@@ -52,12 +53,15 @@ export default {
     const loading = ref(true); 
     const error = ref(null); 
     const successMessage = ref(null);
+    const isWatched = ref(false);
 
     const fetchMovieDetails = async (movieSlug) => {
       try {
         const response = await axios.get(`/api/v1/movie/${movieSlug}/`);
-        movie.value = response.data; 
+        console.log('Response data:', response.data);
+        movie.value = response.data.movie; 
         console.log('Fetched movie:', movie.value); 
+        isWatched.value = response.data.is_watched;
       } catch (err) {
         error.value = "Failed to fetch movie details. Please try again.";
       } finally {
@@ -65,7 +69,19 @@ export default {
       }
     };
 
-    const markAsWatched = async () => {
+    // Remove movie from watched list
+    const removeFromWatched = async (movieId) => {
+      try {
+        const response = await axios.delete(`/api/v1/watched-movies/${movieId}/`);
+        console.log("Response message:", response.data.message);
+        successMessage.value = response.data.message;
+        console.log("Removing movie ID:", movieId);
+      } catch (error) {
+        console.error('Error removing movie:', error);
+      }
+    };
+
+     const markAsWatched = async () => {
       const token = localStorage.getItem("accessToken");
       if (!token) {
         // if the user is not logged in, redirect to the login page
@@ -83,6 +99,16 @@ export default {
       } catch (err) {
         console.log('err:', err);
         error.value = "Failed to mark the movie. Please try again.";
+      }
+    };
+
+    const toggleWatched = async (movieId) => {
+      if (!isWatched.value) {
+        await markAsWatched();
+        isWatched.value = true;
+      } else {
+        await removeFromWatched(movieId);
+        isWatched.value = false;
       }
     };
 
@@ -106,10 +132,13 @@ export default {
     return {
       movie,
       loading,
-      getImage,
       error,
-      markAsWatched,
       successMessage,
+      isWatched,
+      removeFromWatched,
+      getImage,
+      markAsWatched,
+      toggleWatched,
     };
   },
 };

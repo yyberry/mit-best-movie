@@ -98,7 +98,6 @@ export default {
             const response = await axios.get(`/api/v1/last-update/`);
             lastUpdate.value = response.data.last_update;
 
-            // 格式化日期，只显示日期部分
             if (lastUpdate.value) {
                 const date = new Date(lastUpdate.value);
                 formattedLastUpdate.value = date.toLocaleDateString();  // default: yyyy-mm-dd 
