@@ -113,7 +113,7 @@ class WatchedMoviesView(APIView):
         if serializer.is_valid():
             movie = serializer.validated_data['movie']
             WatchedMovie.objects.get_or_create(user=request.user, movie=movie)
-            return Response({'message': 'Movie marked as watched!'}, status=status.HTTP_201_CREATED)
+            return Response({'message': 'Movie marked as watched!'}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class RefreshDynamicCategoryView(APIView):

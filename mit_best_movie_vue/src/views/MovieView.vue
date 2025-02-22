@@ -31,19 +31,15 @@
                   </router-link>
                 </div>
             </div>
-            <div class="notification is-success" v-if="successMessage">
-                <button class="delete" @click="successMessage = null"></button>
-                <p>{{ successMessage }}</p>
-            </div>
         </div>
     </div>
 </template>
-
 
 <script>
 import axios from "axios";
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { toast } from 'bulma-toast';
 
 export default {
   setup() {
@@ -52,15 +48,12 @@ export default {
     const movie = ref(null); 
     const loading = ref(true); 
     const error = ref(null); 
-    const successMessage = ref(null);
     const isWatched = ref(false);
 
     const fetchMovieDetails = async (movieSlug) => {
       try {
         const response = await axios.get(`/api/v1/movie/${movieSlug}/`);
-        console.log('Response data:', response.data);
         movie.value = response.data.movie; 
-        console.log('Fetched movie:', movie.value); 
         isWatched.value = response.data.is_watched;
       } catch (err) {
         error.value = "Failed to fetch movie details. Please try again.";
@@ -73,9 +66,14 @@ export default {
     const removeFromWatched = async (movieId) => {
       try {
         const response = await axios.delete(`/api/v1/watched-movies/${movieId}/`);
-        console.log("Response message:", response.data.message);
-        successMessage.value = response.data.message;
-        console.log("Removing movie ID:", movieId);
+        toast({
+              message: response.data.message,
+              type: 'is-success',
+              dismissible: true,
+              pauseOnHover: true,
+              duration: 2000,
+              position: 'top-center',
+            });
       } catch (error) {
         console.error('Error removing movie:', error);
       }
@@ -86,6 +84,14 @@ export default {
       if (!token) {
         // if the user is not logged in, redirect to the login page
         router.push("/log-in");
+        toast({
+              message: "Please log in to mark the movie as watched.",
+              type: 'is-warning',
+              dismissible: true,
+              pauseOnHover: true,
+              duration: 2000,
+              position: 'top-center',
+            });
         return;
       }
       try {
@@ -95,7 +101,14 @@ export default {
             "/api/v1/watched-movies/",
             data
         );
-        successMessage.value = "Movie marked as watched!";
+        toast({
+              message: response.data.message,
+              type: 'is-success',
+              dismissible: true,
+              pauseOnHover: true,
+              duration: 2000,
+              position: 'top-center',
+            });
       } catch (err) {
         console.log('err:', err);
         error.value = "Failed to mark the movie. Please try again.";
@@ -133,7 +146,6 @@ export default {
       movie,
       loading,
       error,
-      successMessage,
       isWatched,
       removeFromWatched,
       getImage,

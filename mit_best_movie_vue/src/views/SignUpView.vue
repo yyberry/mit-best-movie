@@ -122,7 +122,7 @@ export default {
               dismissible: true,
               pauseOnHover: true,
               duration: 2000,
-              position: 'bottom-right',
+              position: 'top-center',
             });
             router.push('/log-in'); 
           })
