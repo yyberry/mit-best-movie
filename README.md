@@ -1,22 +1,81 @@
 # Mit Best Movie:  A **personalized** movie **management** and **tracking** website.
 
-For a movie enthusiast like me, one of the most frustrating experiences is getting spoiled by plot summaries when searching for a movie to watch. Additionally, even after watching a movie, it often remains on the homepage, making it harder to discover new films efficiently. To solve these problems, I built this website to help users find great, unwatched movies. All the data used on this site is scraped from the internet and is intended for personal learning purposes only. Commercial use is strictly prohibited. 
+For a movie enthusiast like me, one of the most frustrating experiences is getting spoiled by plot summaries when searching for a movie to watch. Additionally, even after watching a movie, movies often remain on the homepage, making it harder to discover new films efficiently.
 
-## User Operations
+To solve these problems, I built this website to help users find great, unwatched movies. All data used on this site is scraped from the internet and is intended **for personal learning purposes only**. **Commercial use is strictly prohibited.**
 
-1. **User Registration**: Users can register an account by setting a username and password.
-2. **User Login**: Registered users can log in using their credentials. Upon login, they are redirected to the "My Account" page, where up to five movies marked as watched are displayed.
-3. **User Logout**: After logging in, a "Log Out" button is available next to the username on the "My Account" page. Clicking it will log the user out and redirect them to the homepage.
+## 📌 Features  
 
-## Movie Operations
+### 🍿 User Operations 
 
-1. **For Guests**:
-   - **Movies Browsing**: Guests can explore the top six highest-rated movies on the homepage, along with the top seven highest-rated movies for each genre. Clicking on a movie poster leads to the movie details page, which displays the poster, rating, and genres. Clicking on a genre redirects to the category page, showing all movies in that category.
-   - **Navigation Bar**: The navigation bar can be summoned by scrolling down on any page, allowing easy access to different sections of the website.
-   - **Movies Refreshing**: I have categorized movies into two types based on whether they are dynamic. Dynamic categories are automatically updated every week, while non-dynamic categories must be updated manually. Additionally, I have added a 'Trigger Update' button in Django Admin for manual updates.
-   - **Movies Searching**: Users can search for any movie by title using the search bar in the navbar on any page. As the user types each character, search results are dynamically displayed below the search box. Clicking on any movie in the search results will navigate to that movie's details page.
-2. **For Logged-in Users**:
-   - **Marking Movies as Watched**:
-     Logged-in users can mark movies as watched from the movie details page. Once marked, the movie will be hidden from other pages and will only appear on the user's **"My Account"** page. If a user has more than five watched movies, they can visit the **"Watched Movies"** page to view the full list.
+1. **User Registration**: Create an account with a username and password.
+2. **User Login**: Log in to access personalized features. The "My Account" page displays watched movies.
+3. **User Logout**: Click the "Log Out" button to securely log out and return to the homepage.
+
+###  🎬 Movie Operations
+
+1. - #### 🔹 For Guests
    
-     On the **"Watched Movies"** page, users can also remove the 'Watched' label. Once removed, the movie will reappear on other pages as usual.
+     - **Browse Movies**:
+       - The homepage highlights the **top six highest-rated movies** and the **top seven highest-rated movies per genre**.
+       - Clicking a movie poster leads to a **movie details page** with rating, genre, and a link to browse similar films.
+     - **Navigation Bar**: Scroll down to reveal the navbar for quick access to different sections.
+     - **Dynamic Movie Updates**:
+       - Movies are categorized as **dynamic** (updated automatically every week) or **non-dynamic** (manual updates via Django Admin).
+     - **Search Movies**:
+       - Use the navbar search bar to find movies by title. Search results update **dynamically** as you type.
+       - Clicking a search result navigates to the corresponding movie details page.
+   
+2. **For Logged-in Users**:
+   - **Mark Movies as Watched**:
+     - Users can mark movies as **"Watched"** from the **movie details page**.
+     - Watched movies will be **hidden from other pages** and appear only in the **"My Account"** section.
+   - **Unmark Watched Movies**:
+     - From the **"Watched Movies"** page or **movie details page**, users can remove the "Watched" label.
+     - Once removed, the movie will **reappear in listings** as usual.
+
+## 🚀 Installation & Setup
+
+### 1️⃣ Clone the Repository
+
+```
+git clone https://github.com/your_username/mit_best_movie.git
+cd mit_best_movie
+```
+
+### 2️⃣ Backend Setup (Django)
+
+#### 🔹 Install Backend Dependencies
+
+```
+pip install -r requirements.txt
+```
+
+#### 🔹 Start the Server
+
+```
+python manage.py runserver
+```
+
+### 3️⃣ Frontend Setup (Vue.js)
+
+#### 🔹 Navigate to Frontend Directory & Install Frontend Dependencies
+
+```
+npm install
+```
+
+#### 🔹 Start the Vue Development Server
+
+```
+npm run serve
+```
+
+## 🛠 Tech Stack
+
+- **Backend**: Django + Django REST Framework
+- **Frontend**: Vue.js
+- **Database**: PostgreSQL
+- **Scraping**: BeautifulSoup & Selenium
+
+## 
