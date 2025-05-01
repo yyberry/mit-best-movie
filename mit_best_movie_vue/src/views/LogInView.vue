@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import axios from 'axios';
 import { useStore } from 'vuex';
@@ -64,6 +64,7 @@ export default {
             password: password.value,
         };
 
+        const toPath = route.query.to || '/my-account';
         try {
             const response = await axios.post('/api/v1/login/', formData);
 
@@ -78,16 +79,20 @@ export default {
             // update Vuex Store
             store.commit('setAccessToken', access);
             store.commit('setRefreshToken', refresh);
+            store.commit('setUser', username.value);
             console.log('Access Token:', access);
             console.log('Refresh Token:', refresh);
+            console.log('User:', username.value);
 
             // set Axios headers
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + access;
 
             // navigate to the specified page
-            const toPath = route.query.to || '/my-account';
             console.log('Navigating to:', toPath);
-            router.push(toPath);
+            router.replace(toPath);
+            // setTimeout(() => {
+            //     router.push(toPath);
+            // }, 100);
             } catch (error) {
                 console.log(error);  
                 if (error.response) {
@@ -97,7 +102,9 @@ export default {
                 } else {
                 errors.value.push('Something went wrong. Please try again');
                 }
+            console.log('Login success, should redirect to:', toPath);
             }
+        
     };
 
     return {
