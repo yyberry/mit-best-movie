@@ -1,0 +1,6 @@
+local:
+pg_dump -U mbm_admin -h localhost -F c -b -v -f /Users/hjy/mit_best_movie/mit_best_movie_django/db_backup/backup_file.dump mbm_db
+scp /Users/hjy/mit_best_movie/mit_best_movie_django/db_backup/backup_file.dump root@206.189.99.81:/webapps/mitbestmovie/  
+
+server:
+pg_restore -U mbmuser -h localhost -d mbm_db -v /webapps/mitbestmovie/backup_file.dump

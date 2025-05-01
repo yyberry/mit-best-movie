@@ -94,18 +94,32 @@ export default {
     };
 
     const fetchLastUpdateTime = async () => {
-        try {
-            const response = await axios.get(`/api/v1/last-update/`);
-            lastUpdate.value = response.data.last_update;
+      try {
+        const response = await axios.get(`/api/v1/last-update/`);
+        lastUpdate.value = response.data.last_update;
 
-            if (lastUpdate.value) {
-                const date = new Date(lastUpdate.value);
-                formattedLastUpdate.value = date.toLocaleDateString();  // default: yyyy-mm-dd 
-            }
-        } catch (error) {
-            console.error('Error fetching last update:', error);
+        console.log("Fetched Last Update:", lastUpdate.value);
+
+        if (lastUpdate.value) {
+          const [datePart, timePart] = lastUpdate.value.split(' ');
+          const [year, month, day] = datePart.split('-').map(Number);
+          const [hour, minute, second] = timePart.split(':').map(Number);
+
+          // 注意：月份在 JavaScript 中是从 0 开始的
+          const date = new Date(year, month - 1, day, hour, minute, second);
+
+          if (!isNaN(date.getTime())) {
+            formattedLastUpdate.value = date.toLocaleString('en-US');
+          } else {
+            console.error("Still invalid date:", lastUpdate.value);
+          }
         }
+      } catch (error) {
+        console.error('Error fetching last update:', error);
+      }
     };
+
+
 
     // refresh movies
     const refreshCategory = async () => {
