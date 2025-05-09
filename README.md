@@ -41,7 +41,7 @@ You can visit the website at [https://mitbestmovie.info](https://mitbestmovie.in
 ### 1️⃣ Clone the Repository
 
 ```
-git clone https://github.com/your_username/mit_best_movie.git
+git clone https://github.com/yyberry/mit_best_movie.git
 cd mit_best_movie
 ```
 
