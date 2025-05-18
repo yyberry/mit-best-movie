@@ -93,8 +93,6 @@ export default {
 
             store.commit('removeToken');
 
-            axios.defaults.headers.common['Authorization'] = '';
-
             router.push('/');
         };
 

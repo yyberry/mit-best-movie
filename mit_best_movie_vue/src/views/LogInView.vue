@@ -57,7 +57,6 @@ export default {
     const submitForm = async () => {
         // clear the error messages
         errors.value = [];
-        axios.defaults.headers.common['Authorization'] = '';
 
         const formData = {
             username: username.value,

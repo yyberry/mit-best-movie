@@ -74,6 +74,7 @@ import { ref, reactive, onMounted, onUnmounted, onBeforeMount } from "vue";
 import axios from 'axios';
 import { useStore } from 'vuex';
 import SearchBar from "./components/SearchBar.vue";
+import { useRouter } from 'vue-router';
 
 export default {
   components: {
@@ -89,6 +90,7 @@ export default {
       showNavbar: false, // control the display and hiding of the navbar
     });
     const store = useStore();
+    const router = useRouter();
 
     const handleScroll = () => {
       const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -123,12 +125,10 @@ export default {
     onBeforeMount(() => {
       store.commit('initializeStore');  
 
-      const token = store.state.token;
+      const token = store.state.accessToken;
 
-      if (token) {
-        axios.defaults.headers.common['Authorization'] = 'Token ' + token;
-      } else {
-        axios.defaults.headers.common['Authorization'] = '';
+      if (!token) {
+        router.push('/login');
       }
     });
 
