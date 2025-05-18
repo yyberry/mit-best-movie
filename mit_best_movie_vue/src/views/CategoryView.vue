@@ -75,6 +75,7 @@ export default {
         // get all tags and find the corresponding category
         const categoryResponse = await axios.get(`/api/v1/categories/`);
         const category = categoryResponse.data.find((c) => c.slug === cSlug);
+        console.log("category",category)
 
         // f the corresponding category is found, set the value of isDynamic
         if (category) {
